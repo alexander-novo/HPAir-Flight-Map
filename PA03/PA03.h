@@ -1,3 +1,16 @@
+// PROGRAM DRIVER HEADER INFORMATION //////////////////////////////////////////
+/**
+* @file PA03.h
+*
+* @brief Program driver header file
+*
+* @details Function prototypes, precompiler macros, and includes for program driver
+*
+* @version 1.00
+*          Alexander Novotny
+*          First version
+*
+*/
 #pragma once
 #include <iostream>
 #include <fstream>
@@ -17,7 +30,7 @@ void loadFlights ( FlightMap&, const std::string& );
 void handleRequests ( FlightMap&, const std::string& );
 void printFlightPlan ( std::stack<Flight*> );
 
-// REGULAR EXPRESSIONS ////////////////////////////////////////////////////////
+// GLOBAL REGULAR EXPRESSIONS /////////////////////////////////////////////////
 
 //Used for parsing flight information and requests
 //Not only used to verify the correct format, but the capture groups also separate important information
