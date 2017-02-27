@@ -2,15 +2,15 @@ int main ()
 {
     FlightMap map;
 
-    loadCities ( map );
-    loadFlights ( map );
-    handleRequests ( map );
+    loadCities ( map, CITY_FILE );
+    loadFlights ( map, FLIGHT_FILE );
+    handleRequests ( map, REQUEST_FILE );
 
 }
 
-void loadCities ( FlightMap& map )
+void loadCities ( FlightMap& map, const std::string& fileName )
 {
-    std::ifstream inFile ( CITY_FILE );
+    std::ifstream inFile ( fileName );
     std::string name;
 
     while ( inFile.peek () != EOF )
@@ -22,9 +22,9 @@ void loadCities ( FlightMap& map )
     }
 }
 
-void loadFlights ( FlightMap& map )
+void loadFlights ( FlightMap& map, const std::string& fileName )
 {
-    std::ifstream inFile ( FLIGHT_FILE );
+    std::ifstream inFile ( fileName );
     std::string flightLine; //Used to load one line at a time for parsing
     std::smatch match; //Used to hold the parsed information
     Flight flight;
@@ -76,9 +76,9 @@ void loadFlights ( FlightMap& map )
     }
 }
 
-void handleRequests ( FlightMap& map )
+void handleRequests ( FlightMap& map, const std::string& fileName )
 {
-    std::ifstream inFile ( REQUEST_FILE );
+    std::ifstream inFile ( fileName );
     std::string request; //Used to load one line at a time for parsing
     std::smatch match; //Used to hold the parsed information
     std::stack<Flight*> flightPath;
@@ -129,8 +129,6 @@ void handleRequests ( FlightMap& map )
         {
             printFlightPlan ( flightPath );
         }
-
-
     }
 }
 

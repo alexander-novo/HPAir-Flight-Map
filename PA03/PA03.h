@@ -12,9 +12,9 @@
 #define REQUEST_FILE "requestFile.txt"
 
 // FUNCTION PROTOTYPES ////////////////////////////////////////////////////////
-void loadCities ( FlightMap& );
-void loadFlights ( FlightMap& );
-void handleRequests ( FlightMap& );
+void loadCities ( FlightMap&, const std::string& );
+void loadFlights ( FlightMap&, const std::string& );
+void handleRequests ( FlightMap&, const std::string& );
 void printFlightPlan ( std::stack<Flight*> );
 
 // REGULAR EXPRESSIONS ////////////////////////////////////////////////////////

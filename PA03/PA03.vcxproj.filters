@@ -26,5 +26,8 @@
     <ClInclude Include="FlightMapV1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PA03.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
