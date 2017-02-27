@@ -1,3 +1,21 @@
+// PROGRAM DRIVER INFORMATION /////////////////////////////////////////////////
+/** 
+  * @file PA03.cpp
+  *
+  * @brief Program driver implementation file
+  *
+  * @details Reads in city and flight information, and then processes flight requests
+  *
+  * @version 1.00
+  *          Alexander Novotny
+  *          First version
+  *
+  */
+
+// PROGRAM DRIVER HEADER //////////////////////////////////////////////////////
+#include "PA03.h"
+
+// MAIN FUNCTION //////////////////////////////////////////////////////////////
 int main ()
 {
     FlightMap map;
@@ -8,6 +26,20 @@ int main ()
 
 }
 
+/**
+  * @brief Loads a list of cities from fileName and adds them to map
+  *
+  * @pre fileName contains the name of a valid file
+  *
+  * @post map will be filled with any new cities found in the file
+  *
+  * @param[in] map
+  *            The FlightMap to add cities to
+  *
+  * @param[in] fileName
+  *            The name of the file to load cities from
+  *
+  */
 void loadCities ( FlightMap& map, const std::string& fileName )
 {
     std::ifstream inFile ( fileName );
@@ -22,6 +54,20 @@ void loadCities ( FlightMap& map, const std::string& fileName )
     }
 }
 
+/**
+  * @brief Loads a list of flights from fileName and adds them to map
+  *
+  * @pre fileName contains the name of a valid file
+  *
+  * @post Adds any parsed flights from fileName into the cities contained in map
+  *
+  * @param[in] map
+  *            The FlightMap to add flights to
+  *
+  * @param[in] fileName
+  *            The name of the file to load cities from
+  *
+  */
 void loadFlights ( FlightMap& map, const std::string& fileName )
 {
     std::ifstream inFile ( fileName );
@@ -76,6 +122,24 @@ void loadFlights ( FlightMap& map, const std::string& fileName )
     }
 }
 
+/**
+  * @brief Loads a list of requests from fileName and then processes them
+  *
+  * @details Loads a list of requests from fileName, then attempts to find a
+  *          path for them using map.getPath() and either tells the client that
+  *          HPAir doesn't fly there or gives them their flight plan
+  *
+  * @pre fileName contains the name of a valid file
+  *
+  * @pre map contains a list of cities filled with flights
+  *
+  * @param[in] map
+  *            The FlightMap to get cities and flights from
+  *
+  * @param[in] fileName
+  *            The name of the file to load cities from
+  *
+  */
 void handleRequests ( FlightMap& map, const std::string& fileName )
 {
     std::ifstream inFile ( fileName );
@@ -87,9 +151,11 @@ void handleRequests ( FlightMap& map, const std::string& fileName )
     //Read until the end of the file
     while ( inFile.peek () != EOF )
     {
+        //Read and parse one line at a time
         std::getline ( inFile, request );
         std::regex_match ( request, match, regexRequest );
 
+        //The line doesn't match the required specifications
         if ( !match.size () )
         {
             log ( "ERROR Failed to parse request: " + request );
@@ -102,6 +168,7 @@ void handleRequests ( FlightMap& map, const std::string& fileName )
         from = map.getCity ( match [ 1 ].str () );
         to = map.getCity ( match [ 2 ].str () );
 
+        //Cities could not be found
         if ( from == nullptr )
         {
             log ( "ERROR Failed to fulfill request: Could not find city \"" 
@@ -117,8 +184,8 @@ void handleRequests ( FlightMap& map, const std::string& fileName )
             continue;
         }
 
-
-
+        //See if we can fly this request
+        //Then either notify the client that we can't or print their flight plan
         flightPath = map.getPath ( from, to );
         if ( flightPath.empty () )
         {
@@ -132,6 +199,18 @@ void handleRequests ( FlightMap& map, const std::string& fileName )
     }
 }
 
+/**
+  * @brief Takes a flight plan and prints it on screen
+  *
+  * @pre flightPlan must not be empty
+  *
+  * @param[in] flightPlan
+  *            A stack of flights in order of first to last from top to bottom.
+  *
+  * @param[in] fileName
+  *            The name of the file to load cities from
+  *
+  */
 void printFlightPlan ( std::stack<Flight*> flightPlan )
 {
     Flight* next;
