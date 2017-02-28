@@ -107,7 +107,7 @@ City* FlightMap::getNextCity ( City* from )
   * @return Pointer to the new city
   *
   */
-City* FlightMap::addCity ( std::string& name )
+City* FlightMap::addCity ( const std::string& name )
 {
     City temp;
     temp.name = name;
@@ -124,7 +124,7 @@ City* FlightMap::addCity ( std::string& name )
   * @return Pointer to the found city, or nullptr if not found
   *
   */
-City* FlightMap::getCity ( std::string& name )
+City* FlightMap::getCity ( const std::string& name )
 {
     for ( City& city : cities )
     {

@@ -62,8 +62,8 @@ class FlightMap
         City* getNextCity ( City* from );
 
     public:
-        City* addCity ( std::string& name );
-        City* getCity ( std::string& name );
+        City* addCity ( const std::string& name );
+        City* getCity ( const std::string& name );
 
         std::stack<Flight*> getPath ( City* from, City* to );
 };
