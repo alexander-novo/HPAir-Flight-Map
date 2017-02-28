@@ -11,6 +11,10 @@
   *          Alexander Novotny
   *          First version
   *
+  * @version 2.00
+  *          Alexander Novotny
+  *          Added a try next iterator to City
+  *
   */
 
 #pragma once
@@ -35,6 +39,7 @@ struct City
     std::string name;
     std::vector<Flight> flights;
     bool visited;
+    std::vector<Flight>::iterator tryNext;
 };
 
 struct Flight
