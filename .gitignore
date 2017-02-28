@@ -78,7 +78,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-log.txt
+*log.txt
 
 # User-specific files
 *.suo

@@ -25,7 +25,7 @@
 #include <stack>
 
 // PRECOMPILER MACROS /////////////////////////////////////////////////////////
-#define LOG_FILE "log.txt"
+#define LOG_FILE "HPAir.log.txt"
 
 #ifdef LOG_FILE
 #include <fstream>

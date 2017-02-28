@@ -173,6 +173,12 @@ std::stack<Flight*> FlightMap::getPath ( City* from, City* to )
         //Get an unvisited city adjacent to the city we're looking at
         City* nextCity = getNextCity ( cityStack.top () );
 
+        //For formatting the log file to read the stack easily
+        for ( int tabs = 1; tabs < cityStack.size (); tabs++ )
+        {
+            log ( "\t", false );
+        }
+
         //If there is no unvisited city, we've hit a dead end - go backwards
         //Otherwise look at that next city
         if ( nextCity == nullptr )
