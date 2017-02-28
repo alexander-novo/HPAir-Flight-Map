@@ -9,7 +9,7 @@
   *          First version
   *
   */
-#include "FlightMapV1.h"
+#include "FlightMap.h"
 
 /**
   * @brief Converts a backwards stack of cities into a proper stack of flights

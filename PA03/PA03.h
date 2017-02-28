@@ -18,7 +18,7 @@
 #include <string>
 #include <regex>
 
-#include "FlightMapV1.h"
+#include "FlightMap.h"
 
 // FILENAME MACROS ////////////////////////////////////////////////////////////
 #define CITY_FILE "cityFile.txt"
