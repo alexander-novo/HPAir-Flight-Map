@@ -16,7 +16,6 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <regex>
 
 #include "FlightMap.h"
 
@@ -31,12 +30,18 @@ void loadFlights ( FlightMap&, const std::string& );
 void handleRequests ( FlightMap&, const std::string& );
 void printFlightPlan ( std::stack<Flight*> );
 
+// No longer used because YAY g++ didn't support regex until the version after the one we're using!
+// Also, it took me forever to figure this out because despite the fact that 
+// it's not implemented, <regex> still exists, but all of the functions just return false
+
+/*
 // GLOBAL REGULAR EXPRESSIONS /////////////////////////////////////////////////
 
 //Used for parsing flight information and requests
 //Not only used to verify the correct format, but the capture groups also separate important information
 
 //Los Angeles, Indianapolis	810	50
-const std::regex regexFlight ( "^([[:alpha:] ]+),[\t ]([[:alpha:] ]+)[\t ]([[:digit:]]+)[\t ]([[:digit:]]+)$" );
+std::regex regexFlight ( "^([[:alpha:] ]+),[\t ]([[:alpha:] ]+)[\t ]([[:digit:]]+)[\t ]([[:digit:]]+)$");
 //Indianapolis, San Francisco
-const std::regex regexRequest ( "^([[:alpha:] ]+),[\t ]([[:alpha:] ]+)$" );
+std::regex regexRequest ( "^([[:alpha:] ]+),[\t ]([[:alpha:] ]+)$");
+*/

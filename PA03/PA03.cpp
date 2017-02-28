@@ -49,6 +49,9 @@ void loadCities ( FlightMap& map, const std::string& fileName )
     {
         //Every line should just be a city name, so don't worry about parsing
         std::getline ( inFile, name );
+        //For whatever god forsaken reason, getLine reads an extra \r at the end
+        if(name.at(name.size() - 1 ) == '\r')
+            name.erase ( name.size() - 1 );
         map.addCity ( name );
         log ( "Adding City: " + name );
     }
@@ -71,8 +74,7 @@ void loadCities ( FlightMap& map, const std::string& fileName )
 void loadFlights ( FlightMap& map, const std::string& fileName )
 {
     std::ifstream inFile ( fileName );
-    std::string flightLine; //Used to load one line at a time for parsing
-    std::smatch match; //Used to hold the parsed information
+    std::string flightLine, fromName, toName; //Used to load one line at a time for parsing
     Flight flight;
 
     City* from, *to;
@@ -82,35 +84,37 @@ void loadFlights ( FlightMap& map, const std::string& fileName )
     {
         //Read a line and parse it
         std::getline ( inFile, flightLine );
-        std::regex_match ( flightLine, match, regexFlight );
 
-        //The line doesn't match the required specifications
-        if ( !match.size () )
-        {
-            log ( "ERROR Failed to add flight: " + flightLine );
-            continue;
-        }
+        size_t delim = flightLine.find ( ',' ),
+               delim2 = flightLine.find ( '\t', delim + 2 );
 
-        from = map.getCity ( match [ 1 ].str () );
-        to = map.getCity ( match [ 2 ].str () );
+
+
+        fromName = flightLine.substr ( 0, delim );
+        toName = flightLine.substr ( delim + 2,
+                                     delim2 - delim - 2 );
+
+        from = map.getCity ( fromName );
+        to = map.getCity ( toName );
 
         //Cities could not be found
         if ( from == nullptr )
         {
             log ( "ERROR Failed to add flight: Could not find city \"" 
-                  + match [ 1 ].str () + "\"" );
+                  + fromName + "\"" );
             continue;
         }
         if ( to == nullptr )
         {
             log ( "ERROR Failed to add flight: Could not find city \""
-                  + match [ 2 ].str () + "\"" );
+                  + toName + "\"" );
             continue;
         }
 
         //Add flight to city's flight list
-        flight.id = stoi ( match [ 3 ].str () );
-        flight.cost = stoi ( match [ 4 ].str () );
+        flight.id = stoi ( flightLine.substr ( delim2 + 1, 3 ) );
+        flight.cost = stoi ( flightLine.substr ( delim2 + 4, 
+                                                 flightLine.size() - delim2 + 4 ) );
         flight.from = from;
         flight.to = to;
 
@@ -143,44 +147,43 @@ void loadFlights ( FlightMap& map, const std::string& fileName )
 void handleRequests ( FlightMap& map, const std::string& fileName )
 {
     std::ifstream inFile ( fileName );
-    std::string request; //Used to load one line at a time for parsing
-    std::smatch match; //Used to hold the parsed information
+    std::string requestLine, fromName, toName; //Used to load one line at a time for parsing
     std::stack<Flight*> flightPath;
     City* from, *to;
 
     //Read until the end of the file
     while ( inFile.peek () != EOF )
     {
-        //Read and parse one line at a time
-        std::getline ( inFile, request );
-        std::regex_match ( request, match, regexRequest );
+        std::getline ( inFile, requestLine );
 
-        //The line doesn't match the required specifications
-        if ( !match.size () )
-        {
-            log ( "ERROR Failed to parse request: " + request );
-            continue;
-        }
+        if ( requestLine.at ( requestLine.size () - 1 ) == '\r' )
+            requestLine.erase ( requestLine.size () - 1 );
 
-        std::cout << "Request is to fly from " << match [ 1 ].str ()
-            << " to " << match [ 2 ].str () << std::endl;
+        size_t delim = requestLine.find ( ',' );
 
-        from = map.getCity ( match [ 1 ].str () );
-        to = map.getCity ( match [ 2 ].str () );
+        fromName = requestLine.substr ( 0,  delim);
+        toName = requestLine.substr ( delim + 2,
+                                     requestLine.size() - delim - 1);
+
+        std::cout << "Request is to fly from " << fromName
+            << " to " << toName << std::endl;
+
+        from = map.getCity ( fromName );
+        to = map.getCity ( toName );
 
         //Cities could not be found
         if ( from == nullptr )
         {
             log ( "ERROR Failed to fulfill request: Could not find city \"" 
-                  + match [ 1 ].str () + "\"" );
-            std::cout << "Sorry, HPAir does not service " << match [ 1 ].str ();
+                  + fromName + "\"" );
+            std::cout << "Sorry, HPAir does not service " << fromName << std::endl;
             continue;
         }
         if ( to == nullptr )
         {
             log ( "ERROR Failed to fulfill request: Could not find city \"" 
-                  + match [ 2 ].str () + "\"" );
-            std::cout << "Sorry, HPAir does not service " << match [ 2 ].str ();
+                  + toName + "\"" );
+            std::cout << "Sorry, HPAir does not service " << toName << std::endl;
             continue;
         }
 

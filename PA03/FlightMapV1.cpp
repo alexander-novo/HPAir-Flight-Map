@@ -165,7 +165,7 @@ std::stack<Flight*> FlightMap::getPath ( City* from, City* to )
         City* nextCity = getNextCity ( cityStack.top() );
 
         //For formatting the log file to read the stack easily
-        for ( int tabs = 1; tabs < cityStack.size (); tabs++ )
+        for ( unsigned int tabs = 1; tabs < cityStack.size (); tabs++ )
         {
             log ( "\t", false );
         }
