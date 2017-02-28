@@ -1,6 +1,6 @@
 // CLASS HEADER INFORMATION ///////////////////////////////////////////////////
 /**
-  * @file FlightMapV1.h
+  * @file FlightMap.h
   *
   * @brief Header for FlightMap implementation
   *
